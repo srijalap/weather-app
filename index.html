@@ -14,7 +14,7 @@
     <button class="tablinks" onclick="openTab(event, 'measurements')">Measurements</button>
     <button class="tablinks" onclick="openTab(event, 'temperature')">Temperature</button>
     <button class="tablinks" onclick="openTab(event, 'windSpeed')">Wind Speed</button>
-    <button class="tablinks" onclick="openTab(event, 'info')">info</button>
+    <button class="tablinks" onclick="openTab(event, 'info')">Info</button>
     
   </div>
   
@@ -43,6 +43,9 @@
             <th>Temperature</th>
         </tr>
     </table>
+
+    <h1>Bar chart for temperature</h1>
+    <canvas id="tempChart"></canvas>
   </div>
   
   <div id="windSpeed" class="tabcontent">
@@ -55,6 +58,9 @@
              <th>wind Speed</th>
         </tr>
     </table>
+
+    <h1>Bar chart for Wind Speed</h1>
+    <canvas id="windChart"></canvas>
   </div>
 
   <div id="info" class="tabcontent">
@@ -66,5 +72,6 @@
     </div>
   </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="script.js"></script>
 </html>

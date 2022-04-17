@@ -28,17 +28,57 @@ const getTemperature= () =>{
     .then((data) => data.json())
     .then((data) => {
         let tableRows = '';
+        let dateTimeArray = [];
+        let tempArray = [];
 
         for (let i = 0; i < data.length; i++) {
             const temp = data[i].temperature;
             const dateTime = data[i].date_time;
-            const dateObject = new Date(data[i].date_time);
+            const dateObject = new Date(dateTime);
+            dateTimeArray.push(dateTime);
+            tempArray.push(temp);
 
             tableRows += `<tr><td>${i+1}</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${temp}</td></tr>`;
         }
 
         const table = document.querySelector('#table2>tbody');
         table.innerHTML += tableRows;
+
+        const ctx = document.getElementById('tempChart');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dateTimeArray,
+                datasets: [{
+                    label: 'Temperature',
+                    data: tempArray,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
     });
 };
@@ -65,17 +105,57 @@ function openTab(evt, tabName) {
     .then((data) => data.json())
     .then((data) => {
         let tableRows = '';
+        let dateArray = [];
+        let windSpeedArray = [];
 
         for (let i = 0; i < data.length; i++) {
-            const windSpeeds = data[i].wind_speed;
+            const windSpeed = data[i].wind_speed;
             const dateTime = data[i].date_time;
-            const dateObject = new Date(data[i].date_time);
+            const dateObject = new Date(dateTime);
+            dateArray.push(dateTime);
+            windSpeedArray.push(windSpeed);
 
-            tableRows += `<tr><td>${i+1}</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${windSpeeds}</td></tr>`;
+            tableRows += `<tr><td>${i+1}</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${windSpeed}</td></tr>`;
         }
 
         const table = document.querySelector('#table3>tbody');
         table.innerHTML += tableRows;
+
+        const ctx = document.getElementById('windChart');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dateArray,
+                datasets: [{
+                    label: 'Wind Speed',
+                    data: windSpeedArray,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
     });
 };
