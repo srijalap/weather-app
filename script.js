@@ -33,8 +33,6 @@ const getTemperature= () =>{
             const temp = data[i].temperature;
             const dateTime = data[i].date_time;
             const dateObject = new Date(data[i].date_time);
-            console.log(temp);
-            console.log(dateObject.toLocaleTimeString());
 
             tableRows += `<tr><td>${i+1}</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${temp}</td></tr>`;
         }

@@ -8,16 +8,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
     <!-- Tab links -->
 <div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'Measurement Time')">Measurements</button>
-    <button class="tablinks" onclick="openTab(event, 'Measurement Type')">Temperature</button>
-    <button class="tablinks" onclick="openTab(event, 'Measured Value')">Wind Speed</button>
+    <button class="tablinks" onclick="openTab(event, 'measurements')">Measurements</button>
+    <button class="tablinks" onclick="openTab(event, 'temperature')">Temperature</button>
+    <button class="tablinks" onclick="openTab(event, 'windSpeed')">Wind Speed</button>
+    <button class="tablinks" onclick="openTab(event, 'info')">info</button>
     
   </div>
   
   <!-- Tab content -->
-  <div id="Measurement Time" class="tabcontent">
+  <div id="measurements" class="tabcontent">
     <h1>Latest 30 measurements</h1>
 
     <table id="table1">
@@ -31,7 +33,7 @@
     </table>
   </div>
   
-  <div id="Measurement Type" class="tabcontent">
+  <div id="temperature" class="tabcontent">
     <h1>Latest 20 temperature</h1>
     <table id="table2">
         <tr>
@@ -43,7 +45,7 @@
     </table>
   </div>
   
-  <div id="Measured Value" class="tabcontent">
+  <div id="windSpeed" class="tabcontent">
     <h1>Latest 20 wind speeds</h1>
     <table id="table3">
         <tr>
@@ -51,12 +53,18 @@
             <th>Measurement Date</th>
             <th>Measurement Time</th>
              <th>wind Speed</th>
-            
-        
         </tr>
     </table>
   </div>
-    
+
+  <div id="info" class="tabcontent">
+    <h1>My info</h1>
+    <div class="byline">
+        <p><b>Author:</b> Srijana Poudel</p>
+        <p><b>Email:</b> srijana.poudel@tuni.fi</p>
+        <p><b>Group:</b> 3006</p>
+    </div>
+  </div>
 </body>
 <script src="script.js"></script>
 </html>
