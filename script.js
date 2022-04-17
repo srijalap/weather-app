@@ -44,41 +44,7 @@ const getTemperature= () =>{
         const table = document.querySelector('#table2>tbody');
         table.innerHTML += tableRows;
 
-        const ctx = document.getElementById('tempChart');
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: dateTimeArray,
-                datasets: [{
-                    label: 'Temperature',
-                    data: tempArray,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+        showChart(dateTimeArray, tempArray, 'tempChart', 'Temperature');
 
     });
 };
@@ -121,43 +87,47 @@ function openTab(evt, tabName) {
         const table = document.querySelector('#table3>tbody');
         table.innerHTML += tableRows;
 
-        const ctx = document.getElementById('windChart');
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: dateArray,
-                datasets: [{
-                    label: 'Wind Speed',
-                    data: windSpeedArray,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+        showChart(dateArray, windSpeedArray, 'windChart', 'Wind Speed');
 
     });
 };
 
 getWindSpeeds();
+
+function showChart(labelsArray, data, canvasId, label) {
+    const ctx = document.getElementById(canvasId);
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labelsArray,
+            datasets: [{
+                label: label,
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
