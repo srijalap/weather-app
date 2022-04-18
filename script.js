@@ -21,46 +21,69 @@ function getLatestMeasurement() {
         });
 }
 
-async function getTemperature(interval, tableId) {
-    let tableRows = `<tr><th>Row Number</th><th>Measurement Date</th>
-    <th>Measurement Time</th><th>Temperature</th></tr>`;
+async function displayWeatherDataTableAndChart(measurementType, interval, tableId) {
+    let tableRows = '';
+    switch (measurementType) {
+        case 'temperature':
+            tableRows += `<tr><th>Row Number</th><th>Measurement Date</th>
+            <th>Measurement Time</th><th>Temperature</th></tr>`;
+            break;
+        case 'wind_speed':
+            tableRows += `<tr>
+            <th>Row Number</th>
+            <th>Measurement Date</th>
+            <th>Measurement Time</th>
+             <th>Wind Speed</th>
+            </tr>`;
+            break;
+    }
+
     let dateTimeArray = [];
-    let tempArray = [];
+    let measurementArray = [];
     let url = '';
 
     switch (interval) {
         case 'now':
-            url = 'http://webapi19sa-1.course.tamk.cloud/v1/weather/temperature';
+            url = 'http://webapi19sa-1.course.tamk.cloud/v1/weather/' + measurementType;
             break;
         case '24hour':
-            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/temperature/23';
+            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/' + measurementType + '/23';
             break;
         case '48hour':
-            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/temperature/47';
+            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/' + measurementType + '/47';
             break;
         case '72hour':
-            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/temperature/71';
+            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/' + measurementType + '/71';
             break;
         case '1week':
-            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/temperature/167';
+            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/' + measurementType + '/167';
             break;
         default:
-            url = 'http://webapi19sa-1.course.tamk.cloud/v1/weather/temperature';
+            url = 'http://webapi19sa-1.course.tamk.cloud/v1/weather/' + measurementType;
     }
 
     await fetch(url)
         .then((data) => data.json())
         .then((data) => {
             for (let i = 0; i < data.length; i++) {
-                const temp = data[i].temperature;
+                const measurement = data[i][measurementType];
                 const dateTime = data[i].date_time;
                 const dateObject = new Date(dateTime);
                 dateTimeArray.push(dateTime);
-                tempArray.push(temp);
+                measurementArray.push(measurement);
 
-                tableRows += `<tr><td>${
-                    i + 1
-                }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${temp}</td></tr>`;
+                switch (measurementType) {
+                    case 'temperature':
+                        tableRows += `<tr><td>${
+                            i + 1
+                        }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
+                        break;
+                    case 'wind_speed':
+                        tableRows += `<tr><td>${
+                            i + 1
+                        }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
+                        break;
+                }
             }
         });
 
@@ -71,73 +94,13 @@ async function getTemperature(interval, tableId) {
     let canvasId = '';
     if (tableId === 'table2') {
         canvasId = 'tempChart';
-    } else if (tableId === 'table4') {
-        canvasId = 'customChart';
-    }
-
-    showChart(dateTimeArray, tempArray, canvasId, 'Temperature');
-}
-
-async function getWindSpeed(interval, tableId) {
-    let tableRows = `<tr>
-    <th>Row Number</th>
-    <th>Measurement Date</th>
-    <th>Measurement Time</th>
-     <th>wind Speed</th>
-    </tr>`;
-
-    let dateTimeArray = [];
-
-    let windSpeedArray = [];
-    let url = '';
-    switch (interval) {
-        case 'now':
-            url = 'http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed';
-            break;
-        case '24hour':
-            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed/23';
-            break;
-        case '48hour':
-            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed/47';
-            break;
-        case '72hour':
-            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed/71';
-            break;
-        case '1week':
-            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed/167';
-            break;
-        default:
-            url = 'http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed';
-    }
-
-    await fetch(url)
-        .then((data) => data.json())
-        .then((data) => {
-            for (let i = 0; i < data.length; i++) {
-                const windSpeed = data[i].wind_speed;
-                const dateTime = data[i].date_time;
-                const dateObject = new Date(dateTime);
-                dateTimeArray.push(dateTime);
-                windSpeedArray.push(windSpeed);
-
-                tableRows += `<tr><td>${
-                    i + 1
-                }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${windSpeed}</td></tr>`;
-            }
-        });
-
-    const table = document.querySelector('#' + tableId);
-    table.innerHTML = tableRows;
-
-    // Canvas id depends on the tableId
-    let canvasId = '';
-    if (tableId === 'table3') {
+    } else if (tableId === 'table3') {
         canvasId = 'windChart';
     } else if (tableId === 'table4') {
         canvasId = 'customChart';
     }
-    
-    showChart(dateTimeArray, windSpeedArray, canvasId, 'Wind speed');
+
+    showChart(dateTimeArray, measurementArray, canvasId, 'Temperature');
 }
 
 function showChart(labelsArray, data, canvasId, label) {
@@ -203,12 +166,12 @@ function openTab(evt, tabName) {
 
 function changeInterval() {
     var value = document.getElementById('tempTimeInterval').value;
-    getTemperature(value, 'table2');
+    displayWeatherDataTableAndChart('temperature', value, 'table2');
 }
 
 function changeWindTimeInterval() {
     var value = document.getElementById('windTimeInterval').value;
-    getWindSpeed(value, 'table3');
+    displayWeatherDataTableAndChart('wind_speed', value, 'table3');
 }
 
 function changeMeasurementTypeAndTimeInterval() {
@@ -216,12 +179,12 @@ function changeMeasurementTypeAndTimeInterval() {
     var measurementType = document.getElementById('measurementType').value;
 
     if (measurementType === 'temperature') {
-        getTemperature(timeInterval, 'table4');
+        displayWeatherDataTableAndChart('temperature', timeInterval, 'table4');
     } else if ((measurementType = 'windSpeed')) {
-        getWindSpeed(timeInterval, 'table4');
+        displayWeatherDataTableAndChart('wind_speed', timeInterval, 'table4');
     }
 }
 
 getLatestMeasurement();
-getTemperature('now', 'table2');
-getWindSpeed('now', 'table3');
+displayWeatherDataTableAndChart('temperature', 'now', 'table2');
+displayWeatherDataTableAndChart('wind_speed', 'now', 'table3');
