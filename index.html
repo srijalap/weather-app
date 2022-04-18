@@ -35,14 +35,19 @@
   
   <div id="temperature" class="tabcontent">
     <h1>Latest 20 temperature</h1>
-    <table id="table2">
-        <tr>
-            <th>Row Number</th>
-            <th>Measurement Date</th>
-            <th>Measurement Time</th>
-            <th>Temperature</th>
-        </tr>
-    </table>
+    <div id="dropdown">
+        <label for="timeInterval">Choose time interval:</label>
+
+        <select name="timeInterval" id="timeInterval" onchange="changeInterval()">
+            <option value="now">Now</option>
+            <option value="24hour">24 hours</option>
+            <option value="48hour">48 hours</option>
+            <option value="72hour">72 hours</option>
+            <option value="1week">1 week</option>
+        </select>
+    </div>
+
+    <table id="table2"></table>
 
     <h1>Bar chart for temperature</h1>
     <canvas id="tempChart"></canvas>

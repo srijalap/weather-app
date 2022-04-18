@@ -50,3 +50,9 @@ tr:nth-child(even) {
   border: 1px solid #ccc;
   border-top: none;
 }
+
+#dropdown {
+  float: right;
+  margin-right: 5%;
+  margin-bottom: 20px;
+}
