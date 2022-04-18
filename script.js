@@ -1,4 +1,4 @@
-const getLatestMeasurement = () => {
+function getLatestMeasurement() {
     fetch('http://webapi19sa-1.course.tamk.cloud/v1/weather')
         .then((data) => data.json())
         .then((data) => {
@@ -19,9 +19,9 @@ const getLatestMeasurement = () => {
             const table = document.querySelector('#table1>tbody');
             table.innerHTML += tableRows;
         });
-};
+}
 
-const getTemperature = async (interval) => {
+async function getTemperature(interval, tableId) {
     let tableRows = `<tr><th>Row Number</th><th>Measurement Date</th>
     <th>Measurement Time</th><th>Temperature</th></tr>`;
     let dateTimeArray = [];
@@ -64,25 +64,30 @@ const getTemperature = async (interval) => {
             }
         });
 
-    const table = document.querySelector('#table2');
+    const table = document.querySelector('#' + tableId);
     table.innerHTML = tableRows;
 
-    showChart(dateTimeArray, tempArray, 'tempChart', 'Temperature');
-};
+    // Canvas id depends on the tableId
+    let canvasId = '';
+    if (tableId === 'table2') {
+        canvasId = 'tempChart';
+    } else if (tableId === 'table4') {
+        canvasId = 'customChart';
+    }
 
+    showChart(dateTimeArray, tempArray, canvasId, 'Temperature');
+}
 
-
-
-const getWindSpeed = async (interval) => {
+async function getWindSpeed(interval, tableId) {
     let tableRows = `<tr>
     <th>Row Number</th>
     <th>Measurement Date</th>
     <th>Measurement Time</th>
      <th>wind Speed</th>
     </tr>`;
-    
+
     let dateTimeArray = [];
-    
+
     let windSpeedArray = [];
     let url = '';
     switch (interval) {
@@ -121,10 +126,19 @@ const getWindSpeed = async (interval) => {
             }
         });
 
-        const table = document.querySelector('#table3');
+    const table = document.querySelector('#' + tableId);
     table.innerHTML = tableRows;
-    showChart(dateTimeArray, windSpeedArray, 'windChart', 'Wind speed');
+
+    // Canvas id depends on the tableId
+    let canvasId = '';
+    if (tableId === 'table3') {
+        canvasId = 'windChart';
+    } else if (tableId === 'table4') {
+        canvasId = 'customChart';
     }
+    
+    showChart(dateTimeArray, windSpeedArray, canvasId, 'Wind speed');
+}
 
 function showChart(labelsArray, data, canvasId, label) {
     // get chart in the given canvas id
@@ -188,15 +202,26 @@ function openTab(evt, tabName) {
 }
 
 function changeInterval() {
-    var value = document.getElementById('timeInterval').value;
-    getTemperature(value);
+    var value = document.getElementById('tempTimeInterval').value;
+    getTemperature(value, 'table2');
 }
 
 function changeWindTimeInterval() {
     var value = document.getElementById('windTimeInterval').value;
-    getWindSpeed(value);
+    getWindSpeed(value, 'table3');
+}
+
+function changeMeasurementTypeAndTimeInterval() {
+    var timeInterval = document.getElementById('timeInterval').value;
+    var measurementType = document.getElementById('measurementType').value;
+
+    if (measurementType === 'temperature') {
+        getTemperature(timeInterval, 'table4');
+    } else if ((measurementType = 'windSpeed')) {
+        getWindSpeed(timeInterval, 'table4');
+    }
 }
 
 getLatestMeasurement();
-getTemperature('now');
-getWindSpeed('now');
+getTemperature('now', 'table2');
+getWindSpeed('now', 'table3');
