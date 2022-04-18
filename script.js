@@ -70,32 +70,61 @@ const getTemperature = async (interval) => {
     showChart(dateTimeArray, tempArray, 'tempChart', 'Temperature');
 };
 
-const getWindSpeeds = () => {
-    fetch('http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed')
+
+
+
+const getWindSpeed = async (interval) => {
+    let tableRows = `<tr>
+    <th>Row Number</th>
+    <th>Measurement Date</th>
+    <th>Measurement Time</th>
+     <th>wind Speed</th>
+    </tr>`;
+    
+    let dateTimeArray = [];
+    
+    let windSpeedArray = [];
+    let url = '';
+    switch (interval) {
+        case 'now':
+            url = 'http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed';
+            break;
+        case '24hour':
+            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed/23';
+            break;
+        case '48hour':
+            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed/47';
+            break;
+        case '72hour':
+            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed/71';
+            break;
+        case '1week':
+            url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed/167';
+            break;
+        default:
+            url = 'http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed';
+    }
+
+    await fetch(url)
         .then((data) => data.json())
         .then((data) => {
-            let tableRows = '';
-            let dateArray = [];
-            let windSpeedArray = [];
-
             for (let i = 0; i < data.length; i++) {
                 const windSpeed = data[i].wind_speed;
                 const dateTime = data[i].date_time;
                 const dateObject = new Date(dateTime);
-                dateArray.push(dateTime);
+                dateTimeArray.push(dateTime);
                 windSpeedArray.push(windSpeed);
 
                 tableRows += `<tr><td>${
                     i + 1
                 }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${windSpeed}</td></tr>`;
             }
-
-            const table = document.querySelector('#table3>tbody');
-            table.innerHTML += tableRows;
-
-            showChart(dateArray, windSpeedArray, 'windChart', 'Wind Speed');
         });
-};
+
+        const table = document.querySelector('#table3');
+    table.innerHTML = tableRows;
+    showChart(dateTimeArray, windSpeedArray, 'windChart', 'Wind speed');
+    }
 
 function showChart(labelsArray, data, canvasId, label) {
     // get chart in the given canvas id
@@ -163,6 +192,11 @@ function changeInterval() {
     getTemperature(value);
 }
 
+function changeWindTimeInterval() {
+    var value = document.getElementById('windTimeInterval').value;
+    getWindSpeed(value);
+}
+
 getLatestMeasurement();
 getTemperature('now');
-getWindSpeeds();
+getWindSpeed('now');
