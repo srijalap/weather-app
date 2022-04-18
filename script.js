@@ -22,6 +22,7 @@ function getLatestMeasurement() {
 }
 
 async function displayWeatherDataTableAndChart(measurementType, interval, tableId) {
+    console.log('measurementType is ', measurementType);
     let tableRows = '';
     switch (measurementType) {
         case 'temperature':
@@ -65,6 +66,7 @@ async function displayWeatherDataTableAndChart(measurementType, interval, tableI
     await fetch(url)
         .then((data) => data.json())
         .then((data) => {
+            console.log('Data is ', data);
             for (let i = 0; i < data.length; i++) {
                 const measurement = data[i][measurementType];
                 const dateTime = data[i].date_time;
@@ -178,11 +180,7 @@ function changeMeasurementTypeAndTimeInterval() {
     var timeInterval = document.getElementById('timeInterval').value;
     var measurementType = document.getElementById('measurementType').value;
 
-    if (measurementType === 'temperature') {
-        displayWeatherDataTableAndChart('temperature', timeInterval, 'table4');
-    } else if ((measurementType = 'windSpeed')) {
-        displayWeatherDataTableAndChart('wind_speed', timeInterval, 'table4');
-    }
+    displayWeatherDataTableAndChart(measurementType, timeInterval, 'table4');
 }
 
 getLatestMeasurement();

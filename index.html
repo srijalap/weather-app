@@ -12,7 +12,7 @@
         <div class="tab">
             <button class="tablinks" onclick="openTab(event, 'measurements')">Measurements</button>
             <button class="tablinks" onclick="openTab(event, 'temperature')">Temperature</button>
-            <button class="tablinks" onclick="openTab(event, 'windSpeed')">Wind Speed</button>
+            <button class="tablinks" onclick="openTab(event, 'wind_speed')">Wind Speed</button>
             <button class="tablinks" onclick="openTab(event, 'info')">Info</button>
             <button class="tablinks" onclick="openTab(event, 'measurementTypeDiv')">
                 Different Types and Interval
@@ -106,8 +106,8 @@
             <label for="measurementType">Choose measurement type:</label>
                 <select name="measurementType" id="measurementType" onchange="changeMeasurementTypeAndTimeInterval()">
                     <option value="rain">Rain</option>
-                    <option value="windSpeed">Wind speed</option>
-                    <option value="windDirection">Wind direction</option>
+                    <option value="wind_speed">Wind speed</option>
+                    <option value="wind_direction">Wind direction</option>
                     <option value="light">Light</option>
                     <option value="temperature">Temperature</option>
                 </select>
