@@ -145,18 +145,22 @@ async function displayWeatherDataTableAndChart(measurementType, interval, tableI
 
     // Canvas id depends on the tableId
     let canvasId = '';
+    let chartType ='';
     if (tableId === 'table2') {
         canvasId = 'tempChart';
+        chartType='bar';
     } else if (tableId === 'table3') {
         canvasId = 'windChart';
+        chartType ='bar'
     } else if (tableId === 'table4') {
         canvasId = 'customChart';
+        chartType ='line';
     }
 
-    showChart(dateTimeArray, measurementArray, canvasId, label);
+    showChart(dateTimeArray, measurementArray, canvasId, label, chartType);
 }
 
-function showChart(labelsArray, data, canvasId, label) {
+function showChart(labelsArray, data, canvasId, label,chartType) {
     // get chart in the given canvas id
     const chart = Chart.getChart(canvasId);
 
@@ -166,7 +170,7 @@ function showChart(labelsArray, data, canvasId, label) {
     }
     const ctx = document.getElementById(canvasId);
     const myChart = new Chart(ctx, {
-        type: 'bar',
+        type: chartType,
         data: {
             labels: labelsArray,
             datasets: [
