@@ -22,56 +22,36 @@ function getLatestMeasurement() {
 }
 
 async function displayWeatherDataTableAndChart(measurementType, interval, tableId) {
-    
-    let tableRows = '';
+    let tableRows = '<tr><th>Row Number</th><th>Measurement Date</th><th>Measurement Time</th>';
     let label = '';
     switch (measurementType) {
         case 'temperature':
-            tableRows += `<tr><th>Row Number</th><th>Measurement Date</th>
-            <th>Measurement Time</th><th>Temperature</th></tr>`;
+            tableRows += `<th>Temperature</th>`;
             label = 'Temperature';
             break;
 
         case 'wind_speed':
-            tableRows += `<tr>
-            <th>Row Number</th>
-            <th>Measurement Date</th>
-            <th>Measurement Time</th>
-             <th>Wind Speed</th>
-            </tr>`;
+            tableRows += '<th>Wind Speed</th>';
             label = 'Wind Speed';
             break;
 
         case 'rain':
-            tableRows += `<tr>
-                <th>Row Number</th>
-                <th>Measurement Date</th>
-                <th>Measurement Time</th>
-                <th>Rain</th>
-                </tr>`;
+            tableRows += '<th>Rain</th>';
             label = 'rain';
             break;
 
         case 'wind_direction':
-            tableRows += `<tr>
-                    <th>Row Number</th>
-                    <th>Measurement Date</th>
-                    <th>Measurement Time</th>
-                     <th>Wind Direction</th>
-                    </tr>`;
+            tableRows += '<th>Wind Direction</th>';
             label = 'Wind Direction';
             break;
 
         case 'light':
-            tableRows += `<tr>
-                        <th>Row Number</th>
-                        <th>Measurement Date</th>
-                        <th>Measurement Time</th>
-                         <th>light</th>
-                        </tr>`;
+            tableRows += '<th>Light</th>';
             label = 'light';
             break;
     }
+
+    tableRows += '</tr>';
 
     let dateTimeArray = [];
     let measurementArray = [];
@@ -145,22 +125,22 @@ async function displayWeatherDataTableAndChart(measurementType, interval, tableI
 
     // Canvas id depends on the tableId
     let canvasId = '';
-    let chartType ='';
+    let chartType = '';
     if (tableId === 'table2') {
         canvasId = 'tempChart';
-        chartType='bar';
+        chartType = 'bar';
     } else if (tableId === 'table3') {
         canvasId = 'windChart';
-        chartType ='bar'
+        chartType = 'bar';
     } else if (tableId === 'table4') {
         canvasId = 'customChart';
-        chartType ='line';
+        chartType = 'line';
     }
 
     showChart(dateTimeArray, measurementArray, canvasId, label, chartType);
 }
 
-function showChart(labelsArray, data, canvasId, label,chartType) {
+function showChart(labelsArray, data, canvasId, label, chartType) {
     // get chart in the given canvas id
     const chart = Chart.getChart(canvasId);
 
