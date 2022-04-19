@@ -59,7 +59,11 @@ async function displayWeatherDataTableAndChart(measurementType, interval, tableI
 
     switch (interval) {
         case 'now':
-            url = 'http://webapi19sa-1.course.tamk.cloud/v1/weather/' + measurementType;
+            if (tableId === 'table4') {
+                url = 'http://webapi19sa-1.course.tamk.cloud/v1/weather';
+            } else {
+                url = 'http://webapi19sa-1.course.tamk.cloud/v1/weather/' + measurementType;
+            }
             break;
         case '24hour':
             url = 'https://webapi19sa-1.course.tamk.cloud/v1/weather/' + measurementType + '/23';
@@ -80,42 +84,43 @@ async function displayWeatherDataTableAndChart(measurementType, interval, tableI
     await fetch(url)
         .then((data) => data.json())
         .then((data) => {
-            for (let i = 0; i < data.length; i++) {
-                const measurement = data[i][measurementType];
-                const dateTime = data[i].date_time;
-                const dateObject = new Date(dateTime);
-                dateTimeArray.push(dateTime);
-                measurementArray.push(measurement);
+            if (tableId === 'table4' && interval === 'now') {
+                let newData = [];
 
-                switch (measurementType) {
-                    case 'temperature':
-                        tableRows += `<tr><td>${
-                            i + 1
-                        }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
-                        break;
-                    case 'wind_speed':
-                        tableRows += `<tr><td>${
-                            i + 1
-                        }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
-                        break;
+                for (let i = 0; i < data.length; i++) {
+                    const oneData = data[i];
+                    const dataKey = Object.keys(oneData.data)[0];
+                    if (dataKey === measurementType) {
+                        newData.push(oneData);
+                    }
+                }
 
-                    case 'rain':
-                        tableRows += `<tr><td>${
-                            i + 1
-                        }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
-                        break;
+                if (newData.length > 25) {
+                    newData = newData.slice(0, 25);
+                }
 
-                    case 'wind_direction':
-                        tableRows += `<tr><td>${
-                            i + 1
-                        }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
-                        break;
+                for (let j = 0; j < newData.length; j++) {
+                    const measurement = newData[j].data[measurementType];
+                    const dateTime = newData[j].date_time;
+                    const dateObject = new Date(dateTime);
+                    dateTimeArray.push(dateTime);
+                    measurementArray.push(measurement);
 
-                    case 'light':
-                        tableRows += `<tr><td>${
-                            i + 1
-                        }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
-                        break;
+                    tableRows += `<tr><td>${
+                        j + 1
+                    }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
+                }
+            } else {
+                for (let i = 0; i < data.length; i++) {
+                    const measurement = data[i][measurementType];
+                    const dateTime = data[i].date_time;
+                    const dateObject = new Date(dateTime);
+                    dateTimeArray.push(dateTime);
+                    measurementArray.push(measurement);
+
+                    tableRows += `<tr><td>${
+                        i + 1
+                    }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
                 }
             }
         });
