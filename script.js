@@ -22,13 +22,16 @@ function getLatestMeasurement() {
 }
 
 async function displayWeatherDataTableAndChart(measurementType, interval, tableId) {
-    console.log('measurementType is ', measurementType);
+    
     let tableRows = '';
+    let label = '';
     switch (measurementType) {
         case 'temperature':
             tableRows += `<tr><th>Row Number</th><th>Measurement Date</th>
             <th>Measurement Time</th><th>Temperature</th></tr>`;
+            label = 'Temperature';
             break;
+
         case 'wind_speed':
             tableRows += `<tr>
             <th>Row Number</th>
@@ -36,6 +39,37 @@ async function displayWeatherDataTableAndChart(measurementType, interval, tableI
             <th>Measurement Time</th>
              <th>Wind Speed</th>
             </tr>`;
+            label = 'Wind Speed';
+            break;
+
+        case 'rain':
+            tableRows += `<tr>
+                <th>Row Number</th>
+                <th>Measurement Date</th>
+                <th>Measurement Time</th>
+                <th>Rain</th>
+                </tr>`;
+            label = 'rain';
+            break;
+
+        case 'wind_direction':
+            tableRows += `<tr>
+                    <th>Row Number</th>
+                    <th>Measurement Date</th>
+                    <th>Measurement Time</th>
+                     <th>Wind Direction</th>
+                    </tr>`;
+            label = 'Wind Direction';
+            break;
+
+        case 'light':
+            tableRows += `<tr>
+                        <th>Row Number</th>
+                        <th>Measurement Date</th>
+                        <th>Measurement Time</th>
+                         <th>light</th>
+                        </tr>`;
+            label = 'light';
             break;
     }
 
@@ -66,7 +100,6 @@ async function displayWeatherDataTableAndChart(measurementType, interval, tableI
     await fetch(url)
         .then((data) => data.json())
         .then((data) => {
-            console.log('Data is ', data);
             for (let i = 0; i < data.length; i++) {
                 const measurement = data[i][measurementType];
                 const dateTime = data[i].date_time;
@@ -81,6 +114,24 @@ async function displayWeatherDataTableAndChart(measurementType, interval, tableI
                         }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
                         break;
                     case 'wind_speed':
+                        tableRows += `<tr><td>${
+                            i + 1
+                        }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
+                        break;
+
+                    case 'rain':
+                        tableRows += `<tr><td>${
+                            i + 1
+                        }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
+                        break;
+
+                    case 'wind_direction':
+                        tableRows += `<tr><td>${
+                            i + 1
+                        }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
+                        break;
+
+                    case 'light':
                         tableRows += `<tr><td>${
                             i + 1
                         }</td><td>${dateObject.toLocaleDateString()}</td><td>${dateObject.toLocaleTimeString()}</td><td>${measurement}</td></tr>`;
@@ -102,7 +153,7 @@ async function displayWeatherDataTableAndChart(measurementType, interval, tableI
         canvasId = 'customChart';
     }
 
-    showChart(dateTimeArray, measurementArray, canvasId, 'Temperature');
+    showChart(dateTimeArray, measurementArray, canvasId, label);
 }
 
 function showChart(labelsArray, data, canvasId, label) {
@@ -186,3 +237,4 @@ function changeMeasurementTypeAndTimeInterval() {
 getLatestMeasurement();
 displayWeatherDataTableAndChart('temperature', 'now', 'table2');
 displayWeatherDataTableAndChart('wind_speed', 'now', 'table3');
+displayWeatherDataTableAndChart('rain', 'now', 'table4');
