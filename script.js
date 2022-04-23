@@ -223,7 +223,17 @@ function changeMeasurementTypeAndTimeInterval() {
     displayWeatherDataTableAndChart(measurementType, timeInterval, 'table4');
 }
 
-getLatestMeasurement();
-displayWeatherDataTableAndChart('temperature', 'now', 'table2');
-displayWeatherDataTableAndChart('wind_speed', 'now', 'table3');
-displayWeatherDataTableAndChart('rain', 'now', 'table4');
+function openFirstTab() {
+    getLatestMeasurement();
+
+    document.getElementById('measurements').style.display = 'block';
+    (document.getElementsByClassName('tablinks'))[0].className += ' active';
+
+    // Get data and chart for other tabs as well
+    displayWeatherDataTableAndChart('temperature', 'now', 'table2');
+    displayWeatherDataTableAndChart('wind_speed', 'now', 'table3');
+    displayWeatherDataTableAndChart('rain', 'now', 'table4');
+}
+
+openFirstTab();
+
