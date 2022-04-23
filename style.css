@@ -5,10 +5,19 @@ table {
   width: 100%;
 }
 
+tr:first-child {
+  background-color: darkkhaki;
+}
+
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
+  text-align: center;
+}
+
+td {
+ color: green;
 }
 
 tr:nth-child(even) {
@@ -31,23 +40,27 @@ tr:nth-child(even) {
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
+  font-size: large;
+  color: blue;
 }
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color: #ddd;
+  background-color: lightblue;
+  color: white;
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: #ccc;
+  background-color:blue;
+  color: white;
 }
 
 /* Style the tab content */
 .tabcontent {
   display: none;
   padding: 6px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid gray;
   border-top: none;
 }
 
@@ -55,4 +68,8 @@ tr:nth-child(even) {
   float: right;
   margin-right: 5%;
   margin-bottom: 20px;
+}
+
+#info {
+  background-color: antiquewhite;
 }

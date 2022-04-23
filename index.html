@@ -37,7 +37,7 @@
         <div id="temperature" class="tabcontent">
             <h1>Latest 20 temperature</h1>
             <div class="dropdown">
-                <label for="tempTimeInterval">Choose time interval:</label>
+                <label for="tempTimeInterval">Select time interval:</label>
 
                 <select name="tempTimeInterval" id="tempTimeInterval" onchange="changeInterval()">
                     <option value="now">Now</option>
@@ -57,7 +57,7 @@
         <div id="wind_speed" class="tabcontent">
             <h1>Latest 20 wind speeds</h1>
             <div class="dropdown">
-                <label for="windTimeInterval">Choose time interval:</label>
+                <label for="windTimeInterval">Select time interval:</label>
 
                 <select name="windTimeInterval" id="windTimeInterval" onchange="changeWindTimeInterval()">
                     <option value="now">Now</option>
@@ -84,9 +84,9 @@
         </div>
 
         <div id="measurementTypeDiv" class="tabcontent">
-            <h3>Choose the measurement type and the time interval</h3>
+            <h3>Select the measurement type and the time interval</h3>
             <div class="dropdown">
-                <label for="timeInterval">Choose time interval:</label>
+                <label for="timeInterval">Select time interval:</label>
 
                 <select
                     name="timeInterval"
@@ -103,7 +103,7 @@
                 <br />
             </div>
 
-            <label for="measurementType">Choose measurement type:</label>
+            <label for="measurementType">Select measurement type:</label>
                 <select name="measurementType" id="measurementType" onchange="changeMeasurementTypeAndTimeInterval()">
                     <option value="rain">Rain</option>
                     <option value="wind_speed">Wind speed</option>
